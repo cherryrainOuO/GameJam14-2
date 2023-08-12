@@ -1,23 +1,3 @@
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Kyun_UnitSystem : MonoBehaviour
-{
-    private List<Kyun_IUnit> units;
-
-    public void UpdateUnits()
-    {
-        foreach (var unit in units)
-        {
-            if (unit.UnitType == Kyun_UnitType.Chick)
-            {
-                var frontUnit = unit.GetFrontUnit();
-            }
-            unit.UpdateBehaviour();
-        }
-    }
-}
-
 public enum Kyun_UnitType
 {
     Chicken,
@@ -27,22 +7,54 @@ public enum Kyun_UnitType
     Pork,
     Boss
 }
-public enum Kyun_DirectionType { None, Up, Down, Left, Right }
 
-public class Kyun_Coordinate
+public enum Kyun_DirectionType
+{
+    None,
+    Up,
+    Down,
+    Left,
+    Right
+}
+
+public struct Kyun_Coordinate
 {
     public int X;
     public int Y;
+
+    public Kyun_Coordinate(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
+
+    public static Kyun_Coordinate operator +(Kyun_Coordinate k1, Kyun_Coordinate k2)
+    {
+        return new Kyun_Coordinate(k1.X + k2.X, k1.Y + k2.Y);
+    }
+
+    public static Kyun_Coordinate operator -(Kyun_Coordinate k1, Kyun_Coordinate k2)
+    {
+        return new Kyun_Coordinate(k1.X - k2.X, k1.Y - k2.Y);
+    }
 }
 
 public interface Kyun_IUnit
 {
+    Kyun_ISpriteIndicator SpriteIndicator { get; }
     Kyun_IUnit FollowingUnit { get; set; }
     Kyun_UnitType UnitType { get; }
-    Vector3 PreviousUnitBeforePosition { get; }
-    Vector3 PreviousUnitAfterPosition { get; }
+    Kyun_DirectionType LastDirection { get; }
+    Kyun_DirectionType Direction { get; set; }
+    Kyun_Coordinate LastPosition { get; }
+    Kyun_Coordinate Position { get; set; }
 
-    void Move(Vector3 direction);
+    void Move();
     void UpdateBehaviour();
-    Kyun_IUnit GetFrontUnit();
+}
+
+public interface Kyun_ISpriteIndicator
+{
+    void UpdateSprite(Kyun_DirectionType direction, Kyun_Coordinate coordinate);
+    void DestroySprite();
 }

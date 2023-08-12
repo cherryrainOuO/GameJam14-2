@@ -25,10 +25,10 @@ public class Eun_RandomUnitByGrid : MonoBehaviour
     /// <returns></returns>
     public Vector2 EggInit()
     {
-        int xMin = (int)Mathf.Clamp(player.transform.position.x - 5f, 0, grid.width - 1);
-        int xMax = (int)Mathf.Clamp(player.transform.position.x + 5f, 0, grid.width - 1);
-        int yMin = (int)Mathf.Clamp(player.transform.position.y - 5f, 0, grid.height - 1);
-        int yMax = (int)Mathf.Clamp(player.transform.position.y + 5f, 0, grid.height - 1);
+        int xMin = (int)Mathf.Clamp(player.Position.X - 5f, 0, grid.width - 1);
+        int xMax = (int)Mathf.Clamp(player.Position.X + 5f, 0, grid.width - 1);
+        int yMin = (int)Mathf.Clamp(player.Position.Y - 5f, 0, grid.height - 1);
+        int yMax = (int)Mathf.Clamp(player.Position.Y + 5f, 0, grid.height - 1);
 
         while (true)
         {
