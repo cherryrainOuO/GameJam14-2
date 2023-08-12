@@ -50,6 +50,7 @@ public class Kyun_PlayerManager : MonoBehaviour
 
         foreach (var unit in units)
         {
+            if (unit.Position.X < 0 || unit.Position.X >= WIDTH || unit.Position.Y < 0 || unit.Position.Y >= HEIGHT) continue;
             Map[unit.Position.X, unit.Position.Y] = unit;
         }
     }

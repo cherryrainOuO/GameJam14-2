@@ -48,6 +48,6 @@ public static class Kyun_ExtensionMethod
 
     public static Vector3 ToVector(this Kyun_Coordinate coordinate)
     {
-        return new Vector3(coordinate.X, -coordinate.Y, 0);
+        return new Vector3(coordinate.X - 6, -coordinate.Y + 4.5f, 0);
     }
 }
