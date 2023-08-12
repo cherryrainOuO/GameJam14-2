@@ -11,12 +11,10 @@ public class SceneSystem : MonoBehaviour
     [SerializeField] private Transform gameOver;
     [SerializeField] private TextMeshProUGUI gameoverText;
 
-    [SerializeField] private bool isEnding = false;
-
     [SerializeField] private int musicIndex = 1;
 
     [SerializeField] private TextMeshProUGUI timer;
-    private float time = 30f;
+    private float time = 200f;
 
     // Start is called before the first frame update
     void Start()
@@ -76,10 +74,7 @@ public class SceneSystem : MonoBehaviour
             yield return null;
         }
 
-        if (!isEnding)
-            SceneManager.LoadScene("LevelScene");
-        else
-            SceneManager.LoadScene("EndingScene");
+        SceneManager.LoadScene("EndingScene");
     }
 
     public IEnumerator CoroutineForGameOver()

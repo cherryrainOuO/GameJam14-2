@@ -148,28 +148,28 @@ public class Kyun_PlayerManager : MonoBehaviour
     private void UpdateDirection()
     {
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             if (previousDirection != Kyun_DirectionType.Down)
             {
                 direction = Kyun_DirectionType.Up;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             if (previousDirection != Kyun_DirectionType.Up)
             {
                 direction = Kyun_DirectionType.Down;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             if (previousDirection != Kyun_DirectionType.Right)
             {
                 direction = Kyun_DirectionType.Left;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             if (previousDirection != Kyun_DirectionType.Left)
             {

@@ -50,6 +50,6 @@ MonoBehaviour:
   natureEggSpriteIndicatorPrefab: {fileID: -812742762994243365, guid: 7c8b41104dd542e46a0a1f9fd2df5c81, type: 3}
   eggSpriteIndicatorPrefab: {fileID: -5468532854761684929, guid: 78ed731169e178e4b8c582f4308ed4ca, type: 3}
   porkSpriteIndicatorPrefab: {fileID: -6073111063815223464, guid: 67ece5e04a05d824da6a50a0658c5de2, type: 3}
-  timer: 0.45
+  timer: 0.2
   sceneSystem: {fileID: 0}
   time: 1
