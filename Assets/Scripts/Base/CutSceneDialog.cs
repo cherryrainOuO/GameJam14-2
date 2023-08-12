@@ -23,11 +23,11 @@ public class CutSceneDialog : MonoBehaviour
     private void Start()
     {
 
-        StartCoroutine(UpdateDialog());
-        StartCoroutine(CoroutineForSkip());
+        //StartCoroutine(UpdateDialog());
+        //StartCoroutine(CoroutineForSkip());
     }
 
-    private IEnumerator UpdateDialog()
+    public IEnumerator UpdateDialog()
     { // 외부 스크립트에서 IEnumerator로 접근할 것
 
         yield return YieldFunctions.WaitForSeconds(1f);
@@ -36,7 +36,7 @@ public class CutSceneDialog : MonoBehaviour
 
         while (true)
         {
-            if (Input.GetMouseButtonDown(0)) //? 넘어가는 버튼
+            if (Input.GetKeyDown(KeyCode.Space)) //? 넘어가는 버튼
             {
 
                 if (isTypingEffect)
@@ -54,15 +54,15 @@ public class CutSceneDialog : MonoBehaviour
                 {
                     /* 다음 다이얼로그 재생 */
 
-                    yield return StartCoroutine(ReverseEraser());
+                    //yield return StartCoroutine(ReverseEraser());
 
                     SetNextDialog();
                 }
                 else
                 {
-                    yield return StartCoroutine(ReverseEraser());
+                    //yield return StartCoroutine(ReverseEraser());
 
-                    dialog.gameObject.SetActive(false);
+                    dialog.text = "";
 
                     break;
                 }
@@ -73,7 +73,6 @@ public class CutSceneDialog : MonoBehaviour
 
 
         Debug.Log("다이얼로그 끝");
-        //Todo LevelManager.Instance.LoadSelectScene();
     }
 
     private void SetNextDialog()
