@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-public enum SFXSoundNumber { Walk, EggBreak, Attack1, Attack2, Success, Death }
+public enum SFXSoundNumber { Walk, EggBreak, Attack1, Attack2, Success, Death, Chick, GetEgg }
 public class Eun_SFXManager : Singleton<Eun_SFXManager>
 {
     private AudioSource audioSource;

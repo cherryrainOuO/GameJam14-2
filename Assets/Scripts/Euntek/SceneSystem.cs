@@ -14,7 +14,9 @@ public class SceneSystem : MonoBehaviour
     [SerializeField] private int musicIndex = 1;
 
     [SerializeField] private TextMeshProUGUI timer;
-    private float time = 200f;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    private int score = 0;
+    private float time = 120f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +28,12 @@ public class SceneSystem : MonoBehaviour
 
         StartCoroutine(CoroutineForStartTransition());
         StartCoroutine(CoroutineForTimer());
+    }
+
+    public void ScoreUpdate(int _score)
+    {
+        score += _score;
+        scoreText.text = score + "";
     }
 
     private IEnumerator CoroutineForTimer()

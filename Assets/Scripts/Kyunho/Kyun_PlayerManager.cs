@@ -145,11 +145,11 @@ public class Kyun_PlayerManager : MonoBehaviour
             {
                 if (porkFollowingUnit.UnitType == Kyun_UnitType.Chick)
                 {
-                    porkCooldown += 20;
+                    porkCooldown += 25;
                 }
                 else
                 {
-                    porkCooldown += 10;
+                    porkCooldown += 15;
                 }
                 units.Remove(porkFollowingUnit);
                 porkFollowingUnit.Destroy();
@@ -170,6 +170,7 @@ public class Kyun_PlayerManager : MonoBehaviour
 
     private void SetGameOver()
     {
+        Eun_SFXManager.Instance.SoundPlay((int)SFXSoundNumber.Attack1);
         StartCoroutine(sceneSystem.CoroutineForGameOver());
         isGameOver = true;
     }
@@ -245,6 +246,9 @@ public class Kyun_PlayerManager : MonoBehaviour
             {
                 if (unit.UnitType == Kyun_UnitType.Egg)
                 {
+                    Eun_SFXManager.Instance.SoundPlay((int)SFXSoundNumber.Chick);
+                    sceneSystem.ScoreUpdate(50);
+
                     int targetIndex = units.IndexOf(unit) - 1;
                     var chick = CreateUnit(Kyun_UnitType.Chick);
                     chick.Position = unit.Position;
@@ -267,6 +271,9 @@ public class Kyun_PlayerManager : MonoBehaviour
         {
             if (player.Position == natureEgg.Position)
             {
+                Eun_SFXManager.Instance.SoundPlay((int)SFXSoundNumber.GetEgg);
+                sceneSystem.ScoreUpdate(10);
+
                 natureEgg.Destroy();
                 natureEgg = null;
                 AddEgg();
