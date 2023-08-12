@@ -17,6 +17,7 @@ public class Kyun_PlayerManager : MonoBehaviour
 
     private Kyun_IUnit player;
     private Kyun_IUnit natureEgg;
+    private Kyun_IUnit pork;
 
     private List<Kyun_IUnit> units;
     private Kyun_DirectionType direction;
@@ -26,6 +27,7 @@ public class Kyun_PlayerManager : MonoBehaviour
 
     private bool isGameOver;
     public float time = 1.0f;
+    private int porkCooldown = 0;
 
     private void Awake()
     {
@@ -108,6 +110,7 @@ public class Kyun_PlayerManager : MonoBehaviour
         UpdateEgg();
         UpdateMovement();
         UpdateEvent();
+        UpdatePork();
         time = timer;
     }
 
@@ -116,15 +119,59 @@ public class Kyun_PlayerManager : MonoBehaviour
         return (player.Position.X < 0 || player.Position.X >= WIDTH || player.Position.Y < 0 || player.Position.Y >= HEIGHT);
     }
 
+    private void UpdatePork()
+    {
+        if (pork == null && units.Count > 5)
+        {
+            pork = CreateUnit(Kyun_UnitType.Pork);
+            pork.Position = units[units.Count - 1].LastPosition;
+            pork.Update();
+            units.Add(pork);
+            UpdateFollow();
+        }
+        else if (pork != null)
+        {
+            if (porkCooldown > 0)
+            {
+                porkCooldown -= 1;
+                return;
+            }
+            var porkFollowingUnit = pork.FollowingUnit;
+            if (porkFollowingUnit.UnitType == Kyun_UnitType.Chicken)
+            {
+                SetGameOver();
+            }
+            else
+            {
+                if (porkFollowingUnit.UnitType == Kyun_UnitType.Chick)
+                {
+                    porkCooldown += 20;
+                }
+                else
+                {
+                    porkCooldown += 10;
+                }
+                units.Remove(porkFollowingUnit);
+                porkFollowingUnit.Destroy();
+                UpdateFollow();
+            }
+        }
+    }
+
     private bool UpdateDeath()
     {
         if (IsOutOfMap())
         {
-            StartCoroutine(sceneSystem.CoroutineForGameOver());
-            isGameOver = true;
+            SetGameOver();
             return true;
         }
         return false;
+    }
+
+    private void SetGameOver()
+    {
+        StartCoroutine(sceneSystem.CoroutineForGameOver());
+        isGameOver = true;
     }
 
     private void UpdateEgg()
@@ -147,7 +194,6 @@ public class Kyun_PlayerManager : MonoBehaviour
 
     private void UpdateDirection()
     {
-
         if (Input.GetKey(KeyCode.UpArrow))
         {
             if (previousDirection != Kyun_DirectionType.Down)
@@ -209,6 +255,11 @@ public class Kyun_PlayerManager : MonoBehaviour
                     units.Remove(unit);
                     units.Insert(targetIndex, chick);
                 }
+                else if (unit.UnitType == Kyun_UnitType.Pork || unit.UnitType == Kyun_UnitType.Chick)
+                {
+                    SetGameOver();
+                    return;
+                }
             }
         }
 
@@ -227,34 +278,16 @@ public class Kyun_PlayerManager : MonoBehaviour
     private void UpdateFollow()
     {
         Kyun_IUnit frontUnit = null;
-        foreach (var unit in units)
+        for (int index = 0; index < units.Count; index++)
         {
-            unit.FollowingUnit = frontUnit;
-            frontUnit = unit;
+            units[index].FollowingUnit = frontUnit;
+            frontUnit = units[index];
         }
-    }
-
-    public void RemoveUnit(Kyun_IUnit unit)
-    {
-        switch (unit.UnitType)
-        {
-            case Kyun_UnitType.Egg:
-                break;
-            case Kyun_UnitType.Chick:
-                break;
-        }
-        if (unit.UnitType == Kyun_UnitType.Egg)
-        {
-            units.Remove(unit);
-        }
-        UpdateFollow();
     }
 
     private void AddEgg()
     {
         var egg = CreateUnit(Kyun_UnitType.Egg);
-        egg.Position = player.Position;
-        egg.Update();
         var lastUnit = units[units.Count - 1];
         if (lastUnit.UnitType == Kyun_UnitType.Pork)
         {
@@ -265,6 +298,13 @@ public class Kyun_PlayerManager : MonoBehaviour
             units.Add(egg);
         }
         UpdateFollow();
+        if (egg.FollowingUnit == null)
+        {
+            SetGameOver();
+            return;
+        }
+        egg.Position = egg.FollowingUnit.LastPosition;
+        egg.Update();
     }
 
     public void Heading()

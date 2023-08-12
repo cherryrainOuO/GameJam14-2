@@ -1,6 +1,8 @@
-﻿public class Kyun_PorkUnit : Kyun_IUnit
+﻿using UnityEngine;
+
+public class Kyun_PorkUnit : Kyun_IUnit
 {
-    private int coolTime = 0;
+    public int CoolTime = 0;
 
     public Kyun_PorkUnit(Kyun_ISpriteIndicator spriteIndicator)
     {
@@ -25,6 +27,7 @@
     {
         LastPosition = Position;
         LastDirection = Direction;
+        Debug.Log(FollowingUnit.UnitType);
         Direction = FollowingUnit.LastDirection;
         Position = FollowingUnit.LastPosition;
         Update();
@@ -32,16 +35,6 @@
 
     public void UpdateBehaviour()
     {
-        //if (coolTime > 0)
-        //{
-        //    LastPosition = transform.position;
-        //    transform.position = FollowingUnit.LastPosition;
-        //    PreviousUnitAfterPosition = transform.position;
-        //}
-        //if (FollowingUnit.UnitType == Kyun_UnitType.Egg)
-        //{
-        //    transform.position = FollowingUnit.LastPosition;
-        //}
     }
 
     public void Destroy()

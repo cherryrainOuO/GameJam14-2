@@ -2,7 +2,12 @@ fileFormatVersion: 2
 guid: a602edbbaae995045855d85d5b257662
 ScriptedImporter:
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:AnimationClip
+      assembly: UnityEngine.AnimationModule
+      name: pork_down_1_Clip
+    second: {fileID: 7400000, guid: 8d586986435e62042bed5fcea2cc8a67, type: 2}
   serializedVersion: 2
   userData: 
   assetBundleName: 
@@ -93,7 +98,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638274870383134967
+  platformSettingsDirtyTick: 638275091227335440
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -119,7 +124,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: pork_down_1_Frame_0
     originalName: 
-    pivot: {x: 0.5, y: -1.125}
+    pivot: {x: 0.5, y: -0.45833334}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -139,7 +144,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 4}
   - name: pork_down_1_Frame_1
     originalName: 
-    pivot: {x: 0.5, y: -0.8947368}
+    pivot: {x: 0.5, y: -0.05263158}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -159,7 +164,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 36}
   - name: pork_down_1_Frame_2
     originalName: 
-    pivot: {x: 0.5, y: -0.84210527}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -190,7 +195,7 @@ ScriptedImporter:
       frameIndex: 0
       cellRect:
         x: 0
-        y: 27
+        y: 11
         width: 16
         height: 24
       spriteId: 9b9f510f97911d1408ae588ab785ac35
@@ -198,7 +203,7 @@ ScriptedImporter:
       frameIndex: 1
       cellRect:
         x: 0
-        y: 17
+        y: 1
         width: 16
         height: 19
       spriteId: a7667a4512d303f4abf59fd831b674a1
@@ -206,7 +211,7 @@ ScriptedImporter:
       frameIndex: 2
       cellRect:
         x: 0
-        y: 16
+        y: 0
         width: 16
         height: 19
       spriteId: 41a1a1dc676c72143970897a6fc0c923
@@ -248,4 +253,4 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 16, y: 64}
+  canvasSize: {x: 16, y: 48}
