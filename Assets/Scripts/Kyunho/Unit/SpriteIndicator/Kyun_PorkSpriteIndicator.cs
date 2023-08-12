@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Kyun_ChickenSpriteIndicator : MonoBehaviour, Kyun_ISpriteIndicator
+public class Kyun_PorkSpriteIndicator : MonoBehaviour, Kyun_ISpriteIndicator
 {
     private Animator animator;
     private Kyun_DirectionType lastDirection;

@@ -23,4 +23,14 @@
     public void Move() { }
 
     public void UpdateBehaviour() { }
+
+    public void Destroy()
+    {
+        SpriteIndicator.DestroySprite();
+    }
+
+    public void Update()
+    {
+        SpriteIndicator.UpdateSprite(Direction, Position);
+    }
 }

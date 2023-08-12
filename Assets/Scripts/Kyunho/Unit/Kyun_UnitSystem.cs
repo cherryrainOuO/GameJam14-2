@@ -1,3 +1,5 @@
+using System;
+
 public enum Kyun_UnitType
 {
     Chicken,
@@ -5,7 +7,8 @@ public enum Kyun_UnitType
     Egg,
     NatureEgg,
     Pork,
-    Boss
+    Boss,
+    ChickBone
 }
 
 public enum Kyun_DirectionType
@@ -28,6 +31,18 @@ public struct Kyun_Coordinate
         Y = y;
     }
 
+    public override bool Equals(object obj)
+    {
+        return obj is Kyun_Coordinate coordinate &&
+               X == coordinate.X &&
+               Y == coordinate.Y;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(X, Y);
+    }
+
     public static Kyun_Coordinate operator +(Kyun_Coordinate k1, Kyun_Coordinate k2)
     {
         return new Kyun_Coordinate(k1.X + k2.X, k1.Y + k2.Y);
@@ -36,6 +51,16 @@ public struct Kyun_Coordinate
     public static Kyun_Coordinate operator -(Kyun_Coordinate k1, Kyun_Coordinate k2)
     {
         return new Kyun_Coordinate(k1.X - k2.X, k1.Y - k2.Y);
+    }
+
+    public static bool operator ==(Kyun_Coordinate k1, Kyun_Coordinate k2)
+    {
+        return k1.X == k2.X && k1.Y == k2.Y;
+    }
+
+    public static bool operator !=(Kyun_Coordinate k1, Kyun_Coordinate k2)
+    {
+        return k1.X != k2.X || k1.Y != k2.Y;
     }
 }
 
@@ -50,7 +75,9 @@ public interface Kyun_IUnit
     Kyun_Coordinate Position { get; set; }
 
     void Move();
+    void Destroy();
     void UpdateBehaviour();
+    void Update();
 }
 
 public interface Kyun_ISpriteIndicator

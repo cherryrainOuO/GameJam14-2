@@ -1,6 +1,12 @@
 ﻿public class Kyun_PorkUnit : Kyun_IUnit
 {
     private int coolTime = 0;
+
+    public Kyun_PorkUnit(Kyun_ISpriteIndicator spriteIndicator)
+    {
+        SpriteIndicator = spriteIndicator;
+    }
+
     public Kyun_IUnit FollowingUnit { get; set; }
     public Kyun_UnitType UnitType => Kyun_UnitType.Pork;
     public Kyun_ISpriteIndicator SpriteIndicator { get; }
@@ -20,7 +26,8 @@
         LastPosition = Position;
         LastDirection = Direction;
         Direction = FollowingUnit.LastDirection;
-        Position += Direction.ToCoordinate();
+        Position = FollowingUnit.LastPosition;
+        Update();
     }
 
     public void UpdateBehaviour()
@@ -35,5 +42,15 @@
         //{
         //    transform.position = FollowingUnit.LastPosition;
         //}
+    }
+
+    public void Destroy()
+    {
+        SpriteIndicator.DestroySprite();
+    }
+
+    public void Update()
+    {
+        SpriteIndicator.UpdateSprite(Direction, Position);
     }
 }

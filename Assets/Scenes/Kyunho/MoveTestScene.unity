@@ -294,9 +294,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 420a2ea8cc501be48a235c0f3e6f9842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eggSpriteIndicatorPrefab: {fileID: -812742762994243365, guid: 7c8b41104dd542e46a0a1f9fd2df5c81, type: 3}
-  spriteIndicatorPrefab: {fileID: 6934012288289577017, guid: 7af3b99f04211e74d876b634ffbbc760, type: 3}
-  timer: 0.5
+  chickSpriteIndicatorPrefab: {fileID: -6773673469103258407, guid: 6ed3a77f2c34b5f47841bc885c772790, type: 3}
+  chickenSpriteIndicatorPrefab: {fileID: 6934012288289577017, guid: 7af3b99f04211e74d876b634ffbbc760, type: 3}
+  chickBoneSpriteIndicatorPrefab: {fileID: -5299083899362296196, guid: 5c3e0671d4b410547ade8d95585eeda4, type: 3}
+  natureEggSpriteIndicatorPrefab: {fileID: -812742762994243365, guid: 7c8b41104dd542e46a0a1f9fd2df5c81, type: 3}
+  eggSpriteIndicatorPrefab: {fileID: -5468532854761684929, guid: 78ed731169e178e4b8c582f4308ed4ca, type: 3}
+  porkSpriteIndicatorPrefab: {fileID: -6073111063815223464, guid: 67ece5e04a05d824da6a50a0658c5de2, type: 3}
+  timer: 0.45
   time: 1
 --- !u!4 &1335951149
 Transform:

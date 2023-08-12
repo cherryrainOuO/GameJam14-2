@@ -9,7 +9,6 @@
     public Kyun_Coordinate LastPosition { get; private set; }
     public Kyun_Coordinate Position { get; set; }
 
-
     public Kyun_ChickenUnit(Kyun_ISpriteIndicator spriteIndicator)
     {
         SpriteIndicator = spriteIndicator;
@@ -20,7 +19,7 @@
         LastPosition = Position;
         LastDirection = Direction;
         Position += Direction.ToCoordinate();
-        SpriteIndicator.UpdateSprite(Direction, Position);
+        Update();
     }
 
     public void UpdateBehaviour()
@@ -31,5 +30,15 @@
     public Kyun_IUnit GetFrontUnit()
     {
         return null;
+    }
+
+    public void Destroy()
+    {
+        SpriteIndicator.DestroySprite();
+    }
+
+    public void Update()
+    {
+        SpriteIndicator.UpdateSprite(Direction, Position);
     }
 }
