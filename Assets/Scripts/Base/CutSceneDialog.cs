@@ -24,7 +24,7 @@ public class CutSceneDialog : MonoBehaviour
     {
 
         StartCoroutine(UpdateDialog());
-        StartCoroutine(CoroutineForSkip());
+        //StartCoroutine(CoroutineForSkip());
     }
 
     private IEnumerator UpdateDialog()
@@ -36,7 +36,7 @@ public class CutSceneDialog : MonoBehaviour
 
         while (true)
         {
-            if (Input.GetMouseButtonDown(0)) //? 넘어가는 버튼
+            if (Input.GetKeyDown(KeyCode.Space)) //? 넘어가는 버튼
             {
 
                 if (isTypingEffect)
@@ -54,13 +54,13 @@ public class CutSceneDialog : MonoBehaviour
                 {
                     /* 다음 다이얼로그 재생 */
 
-                    yield return StartCoroutine(ReverseEraser());
+                    //yield return StartCoroutine(ReverseEraser());
 
                     SetNextDialog();
                 }
                 else
                 {
-                    yield return StartCoroutine(ReverseEraser());
+                    //yield return StartCoroutine(ReverseEraser());
 
                     dialog.gameObject.SetActive(false);
 
