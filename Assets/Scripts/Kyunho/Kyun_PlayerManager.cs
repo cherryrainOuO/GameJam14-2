@@ -25,19 +25,31 @@ public class Kyun_PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            if (direction != Kyun_DirectionType.Down)
+            {
             direction = Kyun_DirectionType.Up;
+            }
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            direction = Kyun_DirectionType.Down;
+            if (direction != Kyun_DirectionType.Up)
+            {
+                direction = Kyun_DirectionType.Down;
+            }
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            direction = Kyun_DirectionType.Left;
+            if (direction != Kyun_DirectionType.Right)
+            {
+                direction = Kyun_DirectionType.Left;
+            }
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            direction = Kyun_DirectionType.Right;
+            if (direction != Kyun_DirectionType.Left)
+            {
+                direction = Kyun_DirectionType.Right;
+            }
         }
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -66,6 +78,7 @@ public class Kyun_PlayerManager : MonoBehaviour
             if (unit.UnitType == Kyun_UnitType.Chicken)
             {
                 unit.Move(direction.ToVector());
+                previousDirection = direction;
             }
             else if (unit.UnitType == Kyun_UnitType.Chick || unit.UnitType == Kyun_UnitType.Egg)
             {
