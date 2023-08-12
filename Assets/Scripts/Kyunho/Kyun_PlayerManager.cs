@@ -5,7 +5,7 @@ public class Kyun_PlayerManager : MonoBehaviour
 {
     private const int WIDTH = 13;
     private const int HEIGHT = 11;
-    private Kyun_IUnit[,] Map = new Kyun_IUnit[WIDTH, HEIGHT]; 
+    private Kyun_IUnit[,] Map = new Kyun_IUnit[WIDTH, HEIGHT];
 
     [SerializeField] private Kyun_ChickSpriteIndicator chickSpriteIndicatorPrefab;
     [SerializeField] private Kyun_ChickenSpriteIndicator chickenSpriteIndicatorPrefab;
@@ -49,13 +49,13 @@ public class Kyun_PlayerManager : MonoBehaviour
 
         foreach (var unit in units)
         {
-            Map[unit.Position.X, unit.Position.Y] = unit; 
+            Map[unit.Position.X, unit.Position.Y] = unit;
         }
     }
 
     private Kyun_ISpriteIndicator CreateSpriteIndicator(Kyun_UnitType unitType)
     {
-        switch(unitType)
+        switch (unitType)
         {
             case Kyun_UnitType.Chicken:
                 return Instantiate(chickenSpriteIndicatorPrefab);
@@ -115,6 +115,7 @@ public class Kyun_PlayerManager : MonoBehaviour
 
     private void UpdateDirection()
     {
+
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (previousDirection != Kyun_DirectionType.Down)

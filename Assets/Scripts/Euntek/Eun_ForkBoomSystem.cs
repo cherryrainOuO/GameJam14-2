@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 public class Eun_ForkBoomSystem : MonoBehaviour
 {
+    [SerializeField] private SceneSystem sceneSystem;
     private List<Eun_Fork> forks;
 
     // Start is called before the first frame update
@@ -22,5 +23,8 @@ public class Eun_ForkBoomSystem : MonoBehaviour
         forks[rand].Boom();
 
         forks.RemoveAt(rand);
+
+        if (forks.Count == 0) StartCoroutine(sceneSystem.CoroutineForExitTransition());
     }
+
 }

@@ -15,23 +15,35 @@ public class SceneSystem : MonoBehaviour
 
     [SerializeField] private int musicIndex = 1;
 
-    [SerializeField] private TextMeshProUGUI[] scores;
+    [SerializeField] private TextMeshProUGUI timer;
+    private float time = 30f;
 
     // Start is called before the first frame update
     void Start()
     {
         transition.gameObject.SetActive(true);
 
-        //Eun_SoundManager.Instance.AudioChange(musicIndex);
-        //Eun_SoundManager.Instance.AudioPlay();
+        Eun_SoundManager.Instance.AudioChange(musicIndex);
+        Eun_SoundManager.Instance.AudioPlay();
 
         StartCoroutine(CoroutineForStartTransition());
+        StartCoroutine(CoroutineForTimer());
     }
 
-    private void Update()
+    private IEnumerator CoroutineForTimer()
     {
-        //scores[0].text =
-        //scores[1].text =
+        while (true)
+        {
+            time -= Time.deltaTime;
+
+            timer.text = (int)(time / 60) + " : " + (int)(time % 60);
+
+            if (time <= 0) break;
+
+            yield return null;
+        }
+
+        StartCoroutine(CoroutineForExitTransition());
     }
 
     private IEnumerator CoroutineForStartTransition()
@@ -52,6 +64,7 @@ public class SceneSystem : MonoBehaviour
 
     public IEnumerator CoroutineForExitTransition()
     {
+        Eun_SFXManager.Instance.SoundPlay((int)SFXSoundNumber.Success);
         float time = 0f;
 
         while (time <= 1f)
@@ -71,6 +84,8 @@ public class SceneSystem : MonoBehaviour
 
     public IEnumerator CoroutineForGameOver()
     {
+        Eun_SFXManager.Instance.SoundPlay((int)SFXSoundNumber.Death);
+
         Eun_SoundManager.Instance.AudioChange(4);
         Eun_SoundManager.Instance.AudioPlay();
 
