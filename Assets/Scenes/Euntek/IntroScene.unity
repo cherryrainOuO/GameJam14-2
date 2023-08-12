@@ -733,8 +733,8 @@ MonoBehaviour:
   dialogStr:
   - "1950\uB144\uB300 \uBA55\uC2DC\uCF54 \uC2DC\uD2F0 \uC5B4\uB290 \uD55C \uBE48\uBBFC\uAC00
     \uC18D \uC591\uACC4\uC7A5."
-  - "'\uD398\uD2B8\uB85C'\uB294 \uC624\uB298\uB3C4 \uBC30\uACE0\uD508 \uB3D9\uC0DD\uC744
-    \uC704\uD574\uC11C \uC2DD\uB7C9\uC744 \uAD6C\uD558\uB7EC \uB5A0\uB0A9\uB2C8\uB2E4."
+  - "'\uCE59'\uC740 \uC624\uB298\uB3C4 \uBC30\uACE0\uD508 \uB3D9\uC0DD\uC744 \uC704\uD574\uC11C
+    \uC2DD\uB7C9\uC744 \uAD6C\uD558\uB7EC \uB5A0\uB0A9\uB2C8\uB2E4."
   skipImage: {fileID: 0}
 --- !u!82 &977730535
 AudioSource:
@@ -1208,6 +1208,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1603524432}
   m_CullTransparentMesh: 1
+--- !u!1 &1631171213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1631171214}
+  - component: {fileID: 1631171215}
+  m_Layer: 0
+  m_Name: SFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1631171214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631171213}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1631171215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631171213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5568c86e3a1b7a64d961827dda1719db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 531b9400016378c4d886cc73f33af07b, type: 3}
+  - {fileID: 8300000, guid: 91289e8ac7ae7ca4794112c484a6dd58, type: 3}
+  - {fileID: 8300000, guid: b4fe1d379de32284ca602ed6352c2e4e, type: 3}
+  - {fileID: 8300000, guid: 8d5b3284a61a1634a926a91086f7614d, type: 3}
+  - {fileID: 8300000, guid: 741d66f04d98efb4aa8b04e95b310200, type: 3}
+  - {fileID: 8300000, guid: 59889947aec4f30458442576cdf025e6, type: 3}
 --- !u!1 &1743455112
 GameObject:
   m_ObjectHideFlags: 0

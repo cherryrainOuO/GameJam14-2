@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class SceneSystem : MonoBehaviour
 {
     [SerializeField] private Transform transition;
@@ -19,8 +20,8 @@ public class SceneSystem : MonoBehaviour
     {
         transition.gameObject.SetActive(true);
 
-        Eun_SoundManager.Instance.AudioChange(musicIndex);
-        Eun_SoundManager.Instance.AudioPlay();
+        //Eun_SoundManager.Instance.AudioChange(musicIndex);
+        //Eun_SoundManager.Instance.AudioPlay();
 
         StartCoroutine(CoroutineForStartTransition());
     }
@@ -38,7 +39,7 @@ public class SceneSystem : MonoBehaviour
             yield return null;
         }
 
-        StartCoroutine(CoroutineForExitTransition());
+        //StartCoroutine(CoroutineForExitTransition());
     }
 
     public IEnumerator CoroutineForExitTransition()
