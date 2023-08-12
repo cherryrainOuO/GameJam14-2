@@ -6,11 +6,12 @@ public class Kyun_PlayerManager : MonoBehaviour
     [SerializeField] private Kyun_ChickenUnit player;
     [SerializeField] private Kyun_EggUnit eggPrefab;
 
-    public List<Kyun_IUnit> units;
+    private List<Kyun_IUnit> units;
     private Kyun_DirectionType direction;
     private Kyun_DirectionType previousDirection;
 
     public float time = 1.0f;
+    [SerializeField] private float timer = 1.0f;
 
     private void Awake()
     {
@@ -25,35 +26,34 @@ public class Kyun_PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (direction != Kyun_DirectionType.Down)
+            if (previousDirection != Kyun_DirectionType.Down)
             {
-            direction = Kyun_DirectionType.Up;
+                direction = Kyun_DirectionType.Up;
             }
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (direction != Kyun_DirectionType.Up)
+            if (previousDirection != Kyun_DirectionType.Up)
             {
                 direction = Kyun_DirectionType.Down;
             }
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            if (direction != Kyun_DirectionType.Right)
+            if (previousDirection != Kyun_DirectionType.Right)
             {
                 direction = Kyun_DirectionType.Left;
             }
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (direction != Kyun_DirectionType.Left)
+            if (previousDirection != Kyun_DirectionType.Left)
             {
                 direction = Kyun_DirectionType.Right;
             }
         }
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            CreateUnitAndAdd();
         }
     }
 
@@ -61,17 +61,56 @@ public class Kyun_PlayerManager : MonoBehaviour
     {
         UpdateDirection();
         if ((time -= Time.deltaTime) > 0) return;
-        UpdateUnits();
-        time = 0.1f;
+        UpdatePreEvent();
+        UpdateUnitsBehaviour();
+        time = timer;
     }
 
-    private void CreateUnitAndAdd()
+    private void UpdatePreEvent()
     {
-        var eggUnit = Instantiate(eggPrefab);
-        AddUnitToPlayer(eggUnit);
+        var frontUnit = units[0].GetFrontUnit();
+        if (frontUnit != null)
+        {
+            switch (frontUnit.UnitType)
+            {
+                case Kyun_UnitType.NatureEgg:
+                    AddEgg();
+                    break;
+                case Kyun_UnitType.Boss:
+                    Heading();
+                    break;
+            }
+        }
     }
 
-    public void UpdateUnits()
+    private void UpdatePostEvent()
+    {
+        var frontUnit = units[0].GetFrontUnit();
+        if (frontUnit != null)
+        {
+            switch (frontUnit.UnitType)
+            {
+                case Kyun_UnitType.Chick:
+                    break;
+                case Kyun_UnitType.Pork:
+                    break;
+                case Kyun_UnitType.Egg:
+                    break;
+            }
+        }
+    }
+
+    private void UpdateFollow()
+    {
+        Kyun_IUnit frontUnit = null;
+        foreach (var unit in units)
+        {
+            unit.FollowingUnit = frontUnit;
+            frontUnit = unit;
+        }
+    }
+
+    public void UpdateUnitsBehaviour()
     {
         foreach (var unit in units)
         {
@@ -91,15 +130,53 @@ public class Kyun_PlayerManager : MonoBehaviour
         }
     }
 
-    public void AddUnitToPlayer(Kyun_IUnit unit)
+    public void RemoveUnit(Kyun_IUnit unit)
+    {
+        switch (unit.UnitType)
+        {
+            case Kyun_UnitType.Egg:
+                break;
+            case Kyun_UnitType.Chick:
+                break;
+        }
+        if (unit.UnitType == Kyun_UnitType.Egg)
+        {
+            units.Remove(unit);
+        }
+        UpdateFollow();
+    }
+
+    public void AddUnit(Kyun_IUnit unit)
+    {
+        units.Add(unit);
+        UpdateFollow();
+    }
+
+    private void AddEgg()
     {
         var lastUnit = units[units.Count - 1];
-        unit.FollowingUnit = lastUnit;
-        units.Add(unit);
+        if (lastUnit.UnitType == Kyun_UnitType.Pork)
+        {
+            var eggUnit = Instantiate(eggPrefab, player.transform.position, Quaternion.identity);
+            units.Insert(units.Count - 2, eggUnit);
+        }
+        int index = 0;
+
+        //units.Insert()
+        //unit.FollowingUnit = lastUnit;
+        //units.Add(unit);
     }
 
     public void Heading()
     {
-
+        for (int index = 0; index < units.Count; index++)
+        {
+            if (units[index].UnitType == Kyun_UnitType.Chick)
+            {
+                var currentUnit = units[index];
+                units.RemoveRange(0, index - 1);
+                //currentUnit;
+            }
+        }
     }
 }

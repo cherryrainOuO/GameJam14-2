@@ -18,8 +18,17 @@ public class Kyun_UnitSystem : MonoBehaviour
     }
 }
 
-public enum Kyun_UnitType { Chicken, Chick, Egg, Pork }
+public enum Kyun_UnitType
+{
+    Chicken,
+    Chick,
+    Egg,
+    NatureEgg,
+    Pork,
+    Boss
+}
 public enum Kyun_DirectionType { None, Up, Down, Left, Right }
+
 public class Kyun_Coordinate
 {
     public int X;
@@ -35,7 +44,5 @@ public interface Kyun_IUnit
 
     void Move(Vector3 direction);
     void UpdateBehaviour();
-    //void MoveTo(Vector2 position);
     Kyun_IUnit GetFrontUnit();
-    //Vector2 Position { get; }
 }

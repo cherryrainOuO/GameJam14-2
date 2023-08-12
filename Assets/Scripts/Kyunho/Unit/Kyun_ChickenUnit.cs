@@ -30,7 +30,14 @@ public class Kyun_ChickenUnit : MonoBehaviour, Kyun_IUnit
 
     public Kyun_IUnit GetFrontUnit()
     {
+        var ray = new Ray(transform.position, Direction.ToVector());
+        var results = new RaycastHit[1];
+        if (Physics.RaycastNonAlloc(ray, results) > 0)
+        {
+            if (!results[0].collider.gameObject.TryGetComponent<Kyun_IUnit>(out var unit)) return null;
+            return unit;
+        }
+        
         return null;
-        //int count = Physics2D.RaycastNonAlloc(transform.position, )
     }
 }
