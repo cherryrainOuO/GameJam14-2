@@ -15,6 +15,8 @@ public class SceneSystem : MonoBehaviour
 
     [SerializeField] private int musicIndex = 1;
 
+    [SerializeField] private TextMeshProUGUI[] scores;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,12 @@ public class SceneSystem : MonoBehaviour
         //Eun_SoundManager.Instance.AudioPlay();
 
         StartCoroutine(CoroutineForStartTransition());
+    }
+
+    private void Update()
+    {
+        //scores[0].text =
+        //scores[1].text =
     }
 
     private IEnumerator CoroutineForStartTransition()
