@@ -16,11 +16,13 @@ public class Eun_DialogManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField, TextArea(4, 5)] private string[] endingStr;
 
+    [SerializeField] private int musicIndex = 0;
+
     private void Start()
     {
         dialogImage.sprite = sprites[0];
 
-        Eun_SoundManager.Instance.AudioChange(0);
+        Eun_SoundManager.Instance.AudioChange(musicIndex);
         Eun_SoundManager.Instance.AudioPlay();
 
         StartCoroutine(DialogPlaying());

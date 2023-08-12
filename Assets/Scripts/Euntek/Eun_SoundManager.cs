@@ -24,6 +24,7 @@ public class Eun_SoundManager : Singleton<Eun_SoundManager>
 
     public void AudioChange(int _index)
     {
+        audioSource.Stop();
         audioSource.clip = audioClips[_index];
     }
 
