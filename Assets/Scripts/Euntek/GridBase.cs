@@ -2,16 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GridValue { VOID_VALUE, GROUND_VALUE }
+
 public class GridBase
 {
     /***** 필드 *****/
     ///////////////////////////////////////////////////
-    private const int VOID_VALUE = -1;
-    private const int GROUND_VALUE = 0;
-    private const int MOVEABLE_VALUE = 1;
-    private const int PLAYER_VALUE = 2;
-    private const int BROKEN_VALUE = 3;
-    private const int BROKEN_VALUE2 = 4;
+
 
     public int width { get; private set; }
     public int height { get; private set; }
@@ -47,7 +44,7 @@ public class GridBase
             {
                 //Debug.Log(x +", " + y);
 
-                gridArray[x, y] = new PathNode(x, y, GROUND_VALUE);
+                gridArray[x, y] = new PathNode(x, y, (int)GridValue.GROUND_VALUE);
 
                 //// 디버깅용 배열 구분선
                 if (isDebug)
@@ -88,8 +85,7 @@ public class GridBase
 
     public void SetValue(int x, int y, int value)
     {
-        if (x >= 0 && y >= 0 && x < width && y < height && gridArray[x, y].stateValue != VOID_VALUE
-                && gridArray[x, y].stateValue != BROKEN_VALUE && gridArray[x, y].stateValue != BROKEN_VALUE2)
+        if (x >= 0 && y >= 0 && x < width && y < height && gridArray[x, y].stateValue != (int)GridValue.VOID_VALUE)
         {
             gridArray[x, y].stateValue = value;
 
@@ -97,7 +93,7 @@ public class GridBase
             if (isDebug)
             {
                 debugTextArray[x, y].text = gridArray[x, y].stateValue.ToString();
-                debugTextArray[x, y].color = (value == MOVEABLE_VALUE) ? Color.cyan : Color.white;
+                //debugTextArray[x, y].color = (value == MOVEABLE_VALUE) ? Color.cyan : Color.white;
             }
             ////
         }
@@ -144,7 +140,7 @@ public class GridBase
                     if (isDebug)
                     {
                         debugTextArray[x, y].text = gridArray[x, y].stateValue.ToString();
-                        debugTextArray[x, y].color = (value == MOVEABLE_VALUE) ? Color.cyan : Color.white;
+                        //debugTextArray[x, y].color = (value == MOVEABLE_VALUE) ? Color.cyan : Color.white;
                     }
                     ////
                 }
