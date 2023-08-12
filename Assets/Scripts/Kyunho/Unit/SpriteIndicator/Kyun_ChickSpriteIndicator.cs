@@ -3,7 +3,6 @@
 public class Kyun_ChickSpriteIndicator : MonoBehaviour, Kyun_ISpriteIndicator
 {
     private Animator animator;
-    private Kyun_DirectionType lastDirection;
 
     private void Awake()
     {
@@ -18,14 +17,8 @@ public class Kyun_ChickSpriteIndicator : MonoBehaviour, Kyun_ISpriteIndicator
 
     public void UpdateSprite(Kyun_DirectionType direction, Kyun_Coordinate coordinate)
     {
-        if (direction != Kyun_DirectionType.Down) coordinate -= direction.ToCoordinate();
         transform.position = coordinate.ToVector();
-        if (direction != lastDirection)
-        {
-            animator.Play(direction.ToAnimatorString());
-            lastDirection = direction;
-        }
-        animator.SetTrigger("Walk");
+        animator.Play(direction.ToAnimatorString());
     }
 
     public void DestroySprite()

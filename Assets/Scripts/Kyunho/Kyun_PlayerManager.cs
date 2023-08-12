@@ -15,20 +15,21 @@ public class Kyun_PlayerManager : MonoBehaviour
     [SerializeField] private Kyun_PorkSpriteIndicator porkSpriteIndicatorPrefab;
     [SerializeField] private float timer = 1.0f;
 
-    private Kyun_ChickenUnit player;
+    private Kyun_IUnit player;
     private Kyun_IUnit natureEgg;
 
     private List<Kyun_IUnit> units;
     private Kyun_DirectionType direction;
     private Kyun_DirectionType previousDirection;
 
+    [SerializeField] private SceneSystem sceneSystem;
+
     public float time = 1.0f;
 
     private void Awake()
     {
         units = new List<Kyun_IUnit>();
-        var chickenSpriteIndicator = CreateSpriteIndicator(Kyun_UnitType.Chicken);
-        player = new Kyun_ChickenUnit(chickenSpriteIndicator);
+        player = CreateUnit(Kyun_UnitType.Chicken);
         units.Add(player);
 
         previousDirection = Kyun_DirectionType.Down;
@@ -49,13 +50,13 @@ public class Kyun_PlayerManager : MonoBehaviour
 
         foreach (var unit in units)
         {
-            Map[unit.Position.X, unit.Position.Y] = unit; 
+            Map[unit.Position.X, unit.Position.Y] = unit;
         }
     }
 
     private Kyun_ISpriteIndicator CreateSpriteIndicator(Kyun_UnitType unitType)
     {
-        switch(unitType)
+        switch (unitType)
         {
             case Kyun_UnitType.Chicken:
                 return Instantiate(chickenSpriteIndicatorPrefab);
@@ -98,19 +99,44 @@ public class Kyun_PlayerManager : MonoBehaviour
     {
         UpdateDirection();
         if ((time -= Time.deltaTime) > 0) return;
+        UpdateMap();
+        UpdateDeath();
         UpdateEgg();
-        UpdatePreMove();
-        UpdatePreEvent();
-        UpdateUnitsBehaviour();
+        UpdateMovement();
+        UpdateEvent();
         time = timer;
+    }
+
+    private bool IsOutOfMap()
+    {
+        return (player.Position.X < 0 || player.Position.X >= WIDTH || player.Position.Y < 0 || player.Position.Y >= HEIGHT);
+    }
+
+    private void UpdateDeath()
+    {
+        if (IsOutOfMap())
+        {
+            StartCoroutine(sceneSystem.CoroutineForGameOver());
+            return;
+        }
     }
 
     private void UpdateEgg()
     {
         if (natureEgg != null) return;
         natureEgg = CreateUnit(Kyun_UnitType.NatureEgg);
-        natureEgg.Position = new Kyun_Coordinate(4, 1);
+        natureEgg.Position = GetRandomCoord();
         natureEgg.Update();
+    }
+
+    private Kyun_Coordinate GetRandomCoord()
+    {
+        while (true)
+        {
+            int x = Random.Range(0, WIDTH);
+            int y = Random.Range(0, HEIGHT);
+            if (Map[x, y] == null) return new Kyun_Coordinate(x, y);
+        }
     }
 
     private void UpdateDirection()
@@ -145,11 +171,11 @@ public class Kyun_PlayerManager : MonoBehaviour
         }
     }
 
-    public void UpdatePreMove()
+    public void UpdateMovement()
     {
-        previousDirection = units[0].Direction;
-        units[0].Direction = direction;
-        units[0].Move();
+        previousDirection = player.Direction;
+        player.Direction = direction;
+        player.Move();
 
         for (int index = 1; index < units.Count; index++)
         {
@@ -157,27 +183,27 @@ public class Kyun_PlayerManager : MonoBehaviour
         }
     }
 
-    private void UpdatePreEvent()
+    private void UpdateEvent()
     {
-        //for (int index = 1; index < units.Count; index++)
-        //{
-        //    var unit = units[index];
-        //    if (player.Position == unit.Position)
-        //    {
-        //        if (unit.UnitType == Kyun_UnitType.Egg)
-        //        {
-        //            int targetIndex = units.IndexOf(unit) - 1;
-        //            var chick = CreateUnit(Kyun_UnitType.Chick);
-        //            chick.Position = unit.Position;
-        //            chick.Direction = unit.Direction;
-        //            chick.FollowingUnit = unit.FollowingUnit;
-        //            chick.Update();
-        //            unit.Destroy();
-        //            units.Remove(unit);
-        //            units.Insert(targetIndex, chick);
-        //        }
-        //    }
-        //}
+        for (int index = 1; index < units.Count; index++)
+        {
+            var unit = units[index];
+            if (player.Position == unit.Position)
+            {
+                if (unit.UnitType == Kyun_UnitType.Egg)
+                {
+                    int targetIndex = units.IndexOf(unit) - 1;
+                    var chick = CreateUnit(Kyun_UnitType.Chick);
+                    chick.Position = unit.Position;
+                    chick.Direction = unit.Direction;
+                    chick.FollowingUnit = unit.FollowingUnit;
+                    chick.Update();
+                    unit.Destroy();
+                    units.Remove(unit);
+                    units.Insert(targetIndex, chick);
+                }
+            }
+        }
 
         if (natureEgg != null)
         {
@@ -199,26 +225,6 @@ public class Kyun_PlayerManager : MonoBehaviour
             unit.FollowingUnit = frontUnit;
             frontUnit = unit;
         }
-    }
-
-    public void UpdateUnitsBehaviour()
-    {
-        //foreach (var unit in units)
-        //{
-        //    if (unit.UnitType == Kyun_UnitType.Chicken)
-        //    {
-        //        unit.Move(direction);
-        //        previousDirection = direction;
-        //    }
-        //    else if (unit.UnitType == Kyun_UnitType.Chick || unit.UnitType == Kyun_UnitType.Egg)
-        //    {
-        //        unit.UpdateBehaviour();
-        //    }
-        //    else
-        //    {
-        //        unit.UpdateBehaviour();
-        //    }
-        //}
     }
 
     public void RemoveUnit(Kyun_IUnit unit)

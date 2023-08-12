@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &929716300294921001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 929716300294921007}
+  - component: {fileID: 929716300294921006}
+  m_Layer: 0
+  m_Name: SnakeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &929716300294921007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929716300294921001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &929716300294921006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929716300294921001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 420a2ea8cc501be48a235c0f3e6f9842, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chickSpriteIndicatorPrefab: {fileID: -6773673469103258407, guid: 6ed3a77f2c34b5f47841bc885c772790, type: 3}
+  chickenSpriteIndicatorPrefab: {fileID: 6934012288289577017, guid: 7af3b99f04211e74d876b634ffbbc760, type: 3}
+  chickBoneSpriteIndicatorPrefab: {fileID: -5299083899362296196, guid: 5c3e0671d4b410547ade8d95585eeda4, type: 3}
+  natureEggSpriteIndicatorPrefab: {fileID: -812742762994243365, guid: 7c8b41104dd542e46a0a1f9fd2df5c81, type: 3}
+  eggSpriteIndicatorPrefab: {fileID: -5468532854761684929, guid: 78ed731169e178e4b8c582f4308ed4ca, type: 3}
+  porkSpriteIndicatorPrefab: {fileID: -6073111063815223464, guid: 67ece5e04a05d824da6a50a0658c5de2, type: 3}
+  timer: 0.45
+  sceneSystem: {fileID: 0}
+  time: 1
