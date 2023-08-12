@@ -24,6 +24,7 @@ public class Kyun_PlayerManager : MonoBehaviour
 
     [SerializeField] private SceneSystem sceneSystem;
 
+    private bool isGameOver;
     public float time = 1.0f;
 
     private void Awake()
@@ -98,10 +99,12 @@ public class Kyun_PlayerManager : MonoBehaviour
 
     public void Update()
     {
+        if (isGameOver) return;
+
         UpdateDirection();
         if ((time -= Time.deltaTime) > 0) return;
         UpdateMap();
-        UpdateDeath();
+        if (UpdateDeath()) return;
         UpdateEgg();
         UpdateMovement();
         UpdateEvent();
@@ -113,13 +116,15 @@ public class Kyun_PlayerManager : MonoBehaviour
         return (player.Position.X < 0 || player.Position.X >= WIDTH || player.Position.Y < 0 || player.Position.Y >= HEIGHT);
     }
 
-    private void UpdateDeath()
+    private bool UpdateDeath()
     {
         if (IsOutOfMap())
         {
             StartCoroutine(sceneSystem.CoroutineForGameOver());
-            return;
+            isGameOver = true;
+            return true;
         }
+        return false;
     }
 
     private void UpdateEgg()
