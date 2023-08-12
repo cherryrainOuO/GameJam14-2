@@ -5,10 +5,11 @@ using UnityEngine.Video;
 using UnityEngine.UI;
 using TMPro;
 
+[RequireComponent(typeof(AudioSource))]
 public class CutSceneDialog : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI dialog;
-    [SerializeField] private string[] dialogStr;
+    [SerializeField, TextArea(4, 5)] private string[] dialogStr;
 
     private int currentDialogIndex = -1;
 
@@ -18,11 +19,12 @@ public class CutSceneDialog : MonoBehaviour
     private Coroutine runningCoroutine = null;
 
     [SerializeField] private Image skipImage;
+    private AudioSource audioSource;
 
 
     private void Start()
     {
-
+        audioSource = GetComponent<AudioSource>();
         //StartCoroutine(UpdateDialog());
         //StartCoroutine(CoroutineForSkip());
     }
@@ -48,6 +50,8 @@ public class CutSceneDialog : MonoBehaviour
                         StopCoroutine(runningCoroutine); // 타이핑 중이면 강제로 정지
 
                     dialog.text = dialogStr[currentDialogIndex];
+
+                    audioSource.Stop();
 
                 }
                 else if (currentDialogIndex < dialogStr.Length - 1)
@@ -86,6 +90,9 @@ public class CutSceneDialog : MonoBehaviour
 
     private IEnumerator OnTypingText()
     {
+        audioSource.volume = Eun_SoundManager.Instance.volume;
+        audioSource.Play();
+
         int index = 0;
 
         isTypingEffect = true;
@@ -99,6 +106,8 @@ public class CutSceneDialog : MonoBehaviour
         }
 
         isTypingEffect = false;
+
+        audioSource.Stop();
     }
 
     private IEnumerator ReverseEraser()

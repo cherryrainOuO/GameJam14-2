@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Euntek/TitleScene.unity
+    guid: 91f36b4cc1fc83141b4591bf9954f07c
+  - enabled: 1
+    path: Assets/Scenes/Euntek/IntroScene.unity
+    guid: 7a755a380a1360449af74d785187d9d2
   m_configObjects: {}

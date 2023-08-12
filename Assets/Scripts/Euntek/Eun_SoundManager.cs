@@ -18,6 +18,7 @@ public class Eun_SoundManager : Singleton<Eun_SoundManager>
 
     public void AudioPlay()
     {
+        audioSource.volume = volume;
         audioSource.Play();
     }
 
