@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GridValue { VOID_VALUE, GROUND_VALUE, EGG_UNIT_VALUE }
+public enum GridValue { VOID_VALUE, GROUND_VALUE, EGG_UNIT_VALUE, BOSS_UNIT_VALUE }
 
 public class GridBase
 {

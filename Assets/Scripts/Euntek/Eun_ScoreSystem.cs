@@ -39,6 +39,7 @@ public class Eun_ScoreSystem : MonoBehaviour
 
         feverTimeCheckCount++;
     }
+
     public void ChickToScore() => totalScore += 400 * multiple;
     public void ChickDieToScore() => totalScore += 50 * multiple;
     public void ChickenAttackBossToScore() => totalScore += 1000 * multiple;
@@ -46,13 +47,13 @@ public class Eun_ScoreSystem : MonoBehaviour
 
     private void FeverTimeOn()
     {
+        Debug.Log("피버타임 온~~");
         multiple = 3;
 
         StartCoroutine(FeverTimeOff());
     }
     private IEnumerator FeverTimeOff()
     {
-        float time = 0f;
 
         yield return YieldFunctions.WaitForSeconds(10f);
 
