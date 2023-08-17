@@ -1,29 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Kyun_PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour
 {
     private const int WIDTH = 13;
     private const int HEIGHT = 11;
-    private Kyun_IUnit[,] Map = new Kyun_IUnit[WIDTH, HEIGHT];
+    private IUnit[,] Map = new IUnit[WIDTH, HEIGHT];
 
-    [SerializeField] private Kyun_ChickSpriteIndicator chickSpriteIndicatorPrefab;
-    [SerializeField] private Kyun_ChickenSpriteIndicator chickenSpriteIndicatorPrefab;
-    [SerializeField] private Kyun_ChickBoneSpriteIndicator chickBoneSpriteIndicatorPrefab;
-    [SerializeField] private Kyun_NatureEggSpriteIndicator natureEggSpriteIndicatorPrefab;
-    [SerializeField] private Kyun_EggSpriteIndicator eggSpriteIndicatorPrefab;
-    [SerializeField] private Kyun_PorkSpriteIndicator porkSpriteIndicatorPrefab;
+    [SerializeField] private UnitFactory unitFactory;
+    [SerializeField] private SceneSystem sceneSystem;
     [SerializeField] private float timer = 1.0f;
 
-    private Kyun_IUnit player;
-    private Kyun_IUnit natureEgg;
-    private Kyun_IUnit pork;
+    private IUnit player;
+    private IUnit natureEgg;
+    private IUnit pork;
 
-    private List<Kyun_IUnit> units;
-    private Kyun_DirectionType direction;
-    private Kyun_DirectionType previousDirection;
-
-    [SerializeField] private SceneSystem sceneSystem;
+    private List<IUnit> units;
+    private DirectionType direction;
+    private DirectionType previousDirection;
 
     private bool isGameOver;
     public float time = 1.0f;
@@ -31,13 +25,13 @@ public class Kyun_PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        units = new List<Kyun_IUnit>();
-        player = CreateUnit(Kyun_UnitType.Chicken);
+        units = new List<IUnit>();
+        player = CreateUnit(UnitType.Chicken);
         units.Add(player);
 
-        previousDirection = Kyun_DirectionType.Down;
-        direction = Kyun_DirectionType.Down;
-        player.Position = new Kyun_Coordinate(0, 0);
+        previousDirection = DirectionType.Down;
+        direction = DirectionType.Down;
+        player.Position = new Coordinate(0, 0);
         player.Update();
     }
 
@@ -58,45 +52,39 @@ public class Kyun_PlayerManager : MonoBehaviour
         }
     }
 
-    private Kyun_ISpriteIndicator CreateSpriteIndicator(Kyun_UnitType unitType)
+    private IUnit head;
+
+    private void AddUnit(IUnit unit, UnitType type = UnitType.None)
     {
-        switch (unitType)
+        var peekUnit = head;
+        while (peekUnit.NextUnit != null)
         {
-            case Kyun_UnitType.Chicken:
-                return Instantiate(chickenSpriteIndicatorPrefab);
-            case Kyun_UnitType.Chick:
-                return Instantiate(chickSpriteIndicatorPrefab);
-            case Kyun_UnitType.ChickBone:
-                return Instantiate(chickBoneSpriteIndicatorPrefab);
-            case Kyun_UnitType.Egg:
-                return Instantiate(eggSpriteIndicatorPrefab);
-            case Kyun_UnitType.NatureEgg:
-                return Instantiate(natureEggSpriteIndicatorPrefab);
-            case Kyun_UnitType.Pork:
-                return Instantiate(porkSpriteIndicatorPrefab);
+            if (peekUnit.NextUnit.UnitType == type)
+            {
+                break;
+            }
+            peekUnit = peekUnit.NextUnit;
         }
+        peekUnit.NextUnit = unit;
+    }
+
+    private void RemoveUnit()
+    {
+        var peekUnit = head;
+        while (peekUnit.NextUnit != null)
+        {
+
+        }
+    }
+
+    private ISpriteIndicator CreateSpriteIndicator(UnitType unitType)
+    {
         return null;
     }
 
-    private Kyun_IUnit CreateUnit(Kyun_UnitType unitType)
+    private IUnit CreateUnit(UnitType unitType)
     {
-        Kyun_ISpriteIndicator spriteIndicator = CreateSpriteIndicator(unitType);
-        switch (unitType)
-        {
-            case Kyun_UnitType.Chicken:
-                return new Kyun_ChickenUnit(spriteIndicator);
-            case Kyun_UnitType.Chick:
-                return new Kyun_ChickUnit(spriteIndicator);
-            case Kyun_UnitType.ChickBone:
-                return new Kyun_ChickBoneUnit(spriteIndicator);
-            case Kyun_UnitType.Egg:
-                return new Kyun_EggUnit(spriteIndicator);
-            case Kyun_UnitType.NatureEgg:
-                return new Kyun_NatureEggUnit(spriteIndicator);
-            case Kyun_UnitType.Pork:
-                return new Kyun_PorkUnit(spriteIndicator);
-        }
-        return null;
+        return unitFactory.CreateUnit(unitType);
     }
 
     public void Update()
@@ -123,7 +111,7 @@ public class Kyun_PlayerManager : MonoBehaviour
     {
         if (pork == null && units.Count > 5)
         {
-            pork = CreateUnit(Kyun_UnitType.Pork);
+            pork = CreateUnit(UnitType.Pork);
             pork.Position = units[units.Count - 1].LastPosition;
             pork.Update();
             units.Add(pork);
@@ -136,14 +124,14 @@ public class Kyun_PlayerManager : MonoBehaviour
                 porkCooldown -= 1;
                 return;
             }
-            var porkFollowingUnit = pork.FollowingUnit;
-            if (porkFollowingUnit.UnitType == Kyun_UnitType.Chicken)
+            var porkFollowingUnit = pork.PreviousUnit;
+            if (porkFollowingUnit.UnitType == UnitType.Chicken)
             {
                 SetGameOver();
             }
             else
             {
-                if (porkFollowingUnit.UnitType == Kyun_UnitType.Chick)
+                if (porkFollowingUnit.UnitType == UnitType.Chick)
                 {
                     porkCooldown += 25;
                 }
@@ -178,18 +166,18 @@ public class Kyun_PlayerManager : MonoBehaviour
     private void UpdateEgg()
     {
         if (natureEgg != null) return;
-        natureEgg = CreateUnit(Kyun_UnitType.NatureEgg);
+        natureEgg = CreateUnit(UnitType.NatureEgg);
         natureEgg.Position = GetRandomCoord();
         natureEgg.Update();
     }
 
-    private Kyun_Coordinate GetRandomCoord()
+    private Coordinate GetRandomCoord()
     {
         while (true)
         {
             int x = Random.Range(0, WIDTH);
             int y = Random.Range(0, HEIGHT);
-            if (Map[x, y] == null) return new Kyun_Coordinate(x, y);
+            if (Map[x, y] == null) return new Coordinate(x, y);
         }
     }
 
@@ -197,30 +185,30 @@ public class Kyun_PlayerManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            if (previousDirection != Kyun_DirectionType.Down)
+            if (previousDirection != DirectionType.Down)
             {
-                direction = Kyun_DirectionType.Up;
+                direction = DirectionType.Up;
             }
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            if (previousDirection != Kyun_DirectionType.Up)
+            if (previousDirection != DirectionType.Up)
             {
-                direction = Kyun_DirectionType.Down;
+                direction = DirectionType.Down;
             }
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            if (previousDirection != Kyun_DirectionType.Right)
+            if (previousDirection != DirectionType.Right)
             {
-                direction = Kyun_DirectionType.Left;
+                direction = DirectionType.Left;
             }
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            if (previousDirection != Kyun_DirectionType.Left)
+            if (previousDirection != DirectionType.Left)
             {
-                direction = Kyun_DirectionType.Right;
+                direction = DirectionType.Right;
             }
         }
     }
@@ -244,22 +232,22 @@ public class Kyun_PlayerManager : MonoBehaviour
             var unit = units[index];
             if (player.Position == unit.Position)
             {
-                if (unit.UnitType == Kyun_UnitType.Egg)
+                if (unit.UnitType == UnitType.Egg)
                 {
                     Eun_SFXManager.Instance.SoundPlay((int)SFXSoundNumber.Chick);
                     sceneSystem.ScoreUpdate(50);
 
                     int targetIndex = units.IndexOf(unit) - 1;
-                    var chick = CreateUnit(Kyun_UnitType.Chick);
+                    var chick = CreateUnit(UnitType.Chick);
                     chick.Position = unit.Position;
                     chick.Direction = unit.Direction;
-                    chick.FollowingUnit = unit.FollowingUnit;
+                    chick.PreviousUnit = unit.PreviousUnit;
                     chick.Update();
                     unit.Destroy();
                     units.Remove(unit);
                     units.Insert(targetIndex, chick);
                 }
-                else if (unit.UnitType == Kyun_UnitType.Pork || unit.UnitType == Kyun_UnitType.Chick)
+                else if (unit.UnitType == UnitType.Pork || unit.UnitType == UnitType.Chick)
                 {
                     SetGameOver();
                     return;
@@ -284,19 +272,19 @@ public class Kyun_PlayerManager : MonoBehaviour
 
     private void UpdateFollow()
     {
-        Kyun_IUnit frontUnit = null;
+        IUnit frontUnit = null;
         for (int index = 0; index < units.Count; index++)
         {
-            units[index].FollowingUnit = frontUnit;
+            units[index].PreviousUnit = frontUnit;
             frontUnit = units[index];
         }
     }
 
     private void AddEgg()
     {
-        var egg = CreateUnit(Kyun_UnitType.Egg);
+        var egg = CreateUnit(UnitType.Egg);
         var lastUnit = units[units.Count - 1];
-        if (lastUnit.UnitType == Kyun_UnitType.Pork)
+        if (lastUnit.UnitType == UnitType.Pork)
         {
             units.Insert(units.Count - 2, egg);
         }
@@ -305,12 +293,12 @@ public class Kyun_PlayerManager : MonoBehaviour
             units.Add(egg);
         }
         UpdateFollow();
-        if (egg.FollowingUnit == null)
+        if (egg.PreviousUnit == null)
         {
             SetGameOver();
             return;
         }
-        egg.Position = egg.FollowingUnit.LastPosition;
+        egg.Position = egg.PreviousUnit.LastPosition;
         egg.Update();
     }
 
@@ -318,7 +306,7 @@ public class Kyun_PlayerManager : MonoBehaviour
     {
         for (int index = 0; index < units.Count; index++)
         {
-            if (units[index].UnitType == Kyun_UnitType.Chick)
+            if (units[index].UnitType == UnitType.Chick)
             {
                 var currentUnit = units[index];
                 units.RemoveRange(0, index - 1);

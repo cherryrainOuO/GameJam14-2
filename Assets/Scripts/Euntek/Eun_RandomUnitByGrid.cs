@@ -7,7 +7,7 @@ public class Eun_RandomUnitByGrid : MonoBehaviour
 {
     [SerializeField] private LevelBase level;
     private GridBase grid;
-    [SerializeField] private Kyun_ChickenUnit player;
+    [SerializeField] private Unit_Chicken player;
 
     // Start is called before the first frame update
     void Start()

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Kyun_ChickSpriteIndicator : MonoBehaviour, Kyun_ISpriteIndicator
+public class SpriteIndicator_Chick : MonoBehaviour, ISpriteIndicator
 {
     private Animator animator;
 
@@ -9,13 +9,13 @@ public class Kyun_ChickSpriteIndicator : MonoBehaviour, Kyun_ISpriteIndicator
         TryGetComponent(out animator);
     }
 
-    public void Initialize(Kyun_DirectionType direction, Kyun_Coordinate coordinate)
+    public void Initialize(DirectionType direction, Coordinate coordinate)
     {
         coordinate -= direction.ToCoordinate();
         transform.position = coordinate.ToVector();
     }
 
-    public void UpdateSprite(Kyun_DirectionType direction, Kyun_Coordinate coordinate)
+    public void UpdateSprite(DirectionType direction, Coordinate coordinate)
     {
         transform.position = coordinate.ToVector();
         animator.Play(direction.ToAnimatorString());

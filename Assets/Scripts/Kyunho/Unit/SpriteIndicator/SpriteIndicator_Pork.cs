@@ -1,24 +1,24 @@
 ﻿using UnityEngine;
 
-public class Kyun_ChickenSpriteIndicator : MonoBehaviour, Kyun_ISpriteIndicator
+public class SpriteIndicator_Pork : MonoBehaviour, ISpriteIndicator
 {
     private Animator animator;
-    private Kyun_DirectionType lastDirection;
+    private DirectionType lastDirection;
 
     private void Awake()
     {
         TryGetComponent(out animator);
     }
 
-    public void Initialize(Kyun_DirectionType direction, Kyun_Coordinate coordinate)
+    public void Initialize(DirectionType direction, Coordinate coordinate)
     {
         coordinate -= direction.ToCoordinate();
         transform.position = coordinate.ToVector();
     }
 
-    public void UpdateSprite(Kyun_DirectionType direction, Kyun_Coordinate coordinate)
+    public void UpdateSprite(DirectionType direction, Coordinate coordinate)
     {
-        if (direction != Kyun_DirectionType.Down) coordinate -= direction.ToCoordinate();
+        if (direction != DirectionType.Down) coordinate -= direction.ToCoordinate();
         transform.position = coordinate.ToVector();
         if (direction != lastDirection)
         {

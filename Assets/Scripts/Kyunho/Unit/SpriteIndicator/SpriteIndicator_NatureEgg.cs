@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class Kyun_EggSpriteIndicator : MonoBehaviour, Kyun_ISpriteIndicator
+public class SpriteIndicator_NatureEgg : MonoBehaviour, ISpriteIndicator
 {
-    public void UpdateSprite(Kyun_DirectionType direction, Kyun_Coordinate coordinate)
+    public void UpdateSprite(DirectionType direction, Coordinate coordinate)
     {
         transform.position = coordinate.ToVector();
     }
