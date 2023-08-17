@@ -185,28 +185,28 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            if (previousDirection != DirectionType.Down)
+            if (player.Direction != DirectionType.Down)
             {
                 direction = DirectionType.Up;
             }
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            if (previousDirection != DirectionType.Up)
+            if (player.Direction != DirectionType.Up)
             {
                 direction = DirectionType.Down;
             }
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            if (previousDirection != DirectionType.Right)
+            if (player.Direction != DirectionType.Right)
             {
                 direction = DirectionType.Left;
             }
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            if (previousDirection != DirectionType.Left)
+            if (player.Direction != DirectionType.Left)
             {
                 direction = DirectionType.Right;
             }
@@ -217,9 +217,8 @@ public class PlayerManager : MonoBehaviour
     {
         previousDirection = player.Direction;
         player.Direction = direction;
-        player.Move();
 
-        for (int index = 1; index < units.Count; index++)
+        for (int index = 0; index < units.Count; index++)
         {
             units[index].Move();
         }
