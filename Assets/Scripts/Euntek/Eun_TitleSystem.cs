@@ -10,9 +10,12 @@ public class Eun_TitleSystem : MonoBehaviour
     [SerializeField] private Transform transition;
     [SerializeField] private Transform transition2;
     [SerializeField] private Transform startText;
+    [SerializeField] private Transform backGroundBlock;
 
     private AudioSource audioSource;
     [SerializeField] private AudioClip[] audioClips;
+
+    private bool isStart = false;
 
     private void Start()
     {
@@ -70,7 +73,7 @@ public class Eun_TitleSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!isStart && Input.GetKeyDown(KeyCode.Space))
         {
             audioSource.volume = Eun_SoundManager.Instance.volume;
             audioSource.clip = audioClips[1];
@@ -85,9 +88,29 @@ public class Eun_TitleSystem : MonoBehaviour
 
     private IEnumerator GameStart()
     {
+        isStart = true;
+
+        yield return StartCoroutine(CoroutineForSelectMenu());
+
+        yield return YieldFunctions.WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+
         yield return StartCoroutine(CoroutineForTransition());
 
         SceneManager.LoadScene("TutorialScene"); //Todo 레벨 씬
+    }
+
+    private IEnumerator CoroutineForSelectMenu()
+    {
+        float time = 0f;
+
+        while (time <= 1f)
+        {
+            time += Time.deltaTime / .7f;
+
+            backGroundBlock.localPosition = Vector2.Lerp(Vector2.zero, Vector2.right * -112f, EasingFunctions.easeOutCubic(time, 5));
+
+            yield return null;
+        }
     }
 
     private IEnumerator CoroutineForTransition()

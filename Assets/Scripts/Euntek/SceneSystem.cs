@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 
 public class SceneSystem : MonoBehaviour
 {
     [SerializeField] private Transform transition;
-    [SerializeField] private Transform gameOver;
-    [SerializeField] private TextMeshProUGUI gameoverText;
+    [SerializeField] private Image gameOverBackground;
+    [SerializeField] private TextMeshProUGUI gameoverTextLeft;
+    [SerializeField] private TextMeshProUGUI gameoverTextRight;
 
     [SerializeField] private int musicIndex = 1;
 
@@ -17,6 +18,8 @@ public class SceneSystem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     private int score = 0;
     private float time = 120f;
+
+    [HideInInspector] public bool isGameOver = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +41,7 @@ public class SceneSystem : MonoBehaviour
 
     private IEnumerator CoroutineForTimer()
     {
-        while (true)
+        while (!isGameOver)
         {
             time -= Time.deltaTime;
 
@@ -49,7 +52,8 @@ public class SceneSystem : MonoBehaviour
             yield return null;
         }
 
-        StartCoroutine(CoroutineForExitTransition());
+        if (!isGameOver)
+            StartCoroutine(CoroutineForExitTransition());
     }
 
     private IEnumerator CoroutineForStartTransition()
@@ -65,7 +69,6 @@ public class SceneSystem : MonoBehaviour
             yield return null;
         }
 
-        //StartCoroutine(CoroutineForExitTransition());
     }
 
     public IEnumerator CoroutineForExitTransition()
@@ -87,6 +90,8 @@ public class SceneSystem : MonoBehaviour
 
     public IEnumerator CoroutineForGameOver()
     {
+        isGameOver = true;
+
         Eun_SFXManager.Instance.SoundPlay((int)SFXSoundNumber.Death);
 
         Eun_SoundManager.Instance.AudioChange(4);
@@ -94,22 +99,48 @@ public class SceneSystem : MonoBehaviour
 
         float time = 0f;
 
-        while (time <= 1f)
+        while (time <= .4f)
         {
             time += Time.deltaTime / .7f;
 
-            gameOver.localPosition = Vector2.Lerp(Vector2.up * 200f, Vector2.zero, time);
+            gameOverBackground.color = new Color(gameOverBackground.color.r, gameOverBackground.color.g, gameOverBackground.color.b, time);
+
+            yield return null;
+        }
+
+        time = 0f;
+
+        while (time <= 1f)
+        {
+            time += Time.deltaTime / .5f;
+
+            gameoverTextLeft.transform.localPosition = Vector3.Lerp(Vector2.right * -200f, Vector2.right * -40f, EasingFunctions.easeOutCubic(time, 5));
+            gameoverTextRight.transform.localPosition = Vector3.Lerp(Vector2.right * 200f, Vector2.right * 40f, EasingFunctions.easeOutCubic(time, 5));
 
             yield return null;
         }
 
         yield return YieldFunctions.WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
 
-        while (time >= 0f)
-        {
-            time -= Time.deltaTime / 2f;
+        time = 0f;
 
-            gameoverText.color = new Color(gameoverText.color.r, gameoverText.color.g, gameoverText.color.b, time);
+        while (time <= 1f)
+        {
+            time += Time.deltaTime / .7f;
+
+            gameoverTextLeft.color = new Color(gameoverTextLeft.color.r, gameoverTextLeft.color.g, gameoverTextLeft.color.b, 1 - time);
+            gameoverTextRight.color = new Color(gameoverTextRight.color.r, gameoverTextRight.color.g, gameoverTextRight.color.b, 1 - time);
+
+            yield return null;
+        }
+
+        time = .4f;
+
+        while (time <= 1f)
+        {
+            time += Time.deltaTime / .7f;
+
+            gameOverBackground.color = new Color(gameOverBackground.color.r, gameOverBackground.color.g, gameOverBackground.color.b, time);
             yield return null;
         }
 
